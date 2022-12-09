@@ -1,0 +1,108 @@
+
+*, *::after, *::before{
+    margin: 0;
+    padding: 0;
+  }
+  body{
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    background-color: #0d2c34;
+    /* background-color: rgb(55, 8, 41) */
+  }
+  .box{
+    /* let's declare css variable to reuse them again and again*/
+    --width:30vmin;
+    --height:30vmin;
+    --depth:30vmin;/* in case you need to convert it into cuboid*/
+    --hue:30;
+    --alpha:0.8;
+    width: var(--width);
+    height: var(--height);
+    position: relative;
+    /* to remove the card inside box after creating box the background-color would be remove*/
+    /*background-color: hsla(var(--hue),50%,50%,var(--alpha));*/
+    /* establish a 3d space*/
+    perspective:px;
+    transform-style: preserve-3d;
+    /* check if 3d space created*/
+    transform: rotateX(24deg) rotateY(24deg);
+    animation: name 7s linear infinite;
+  }
+  /*#box{
+    content: '';
+    position: absolute ;
+    top: 70%;
+    left: 25%;
+    width:150px ;
+    height:20px ;
+    background:#000;
+    filter: blur(15px);
+    opacity:0.9;
+    transform:  rotateZ(6deg);
+    
+  }*/
+  .box_face{
+  /*background-color: hsla(var(--hue),50%,50%,var(--alpha));*/
+    position:absolute;
+    border: 4px solid #0f534b;
+    border-radius: 10px;
+    left: 50%;
+    top: 50%;
+    align-self:center ;
+  }
+  .box_face--back, .box_face--front{
+    width:var(--width);
+    height:var(--height);
+    
+    background-color:#031013ca;
+    --hue:220;
+    --alpha:0.6;
+    --coeff:-0.5;
+    /* translate front and back sides to their positions*/
+    transform: translate(-50%,-50%) translate3d(0,0,calc(var(--depth) * var(--coeff))) ;
+   
+  }
+  .box_face--front{
+    /* to avoid repetition create  css variable*/
+    --coeff:0.5;
+  }
+  /* target left and right boxes*/
+  .box_face--left,.box_face--right{
+    width:var(--depth);
+    height: var(--height);
+    
+    background-color: #031013;
+    /* create rotation variable to avoid repeating yourself*/
+    --rotate:90deg;
+    --hue:160;
+    --alpha:0.8;
+    transform: translate(-50%,-50%) rotateY(var(--rotate)) translate3d(0,0,calc(var(--width)*0.5));
+  
+  }
+  .box_face--left{
+    --rotate:-90deg;
+  }
+  /* placing top and bottom sides*/
+  .box_face--top,.box_face--bottom{
+    width: var(--width) ;
+    height: var(--depth);
+    
+    background-color: #031013ca;
+    --hue:30;
+    --alpha:0.6;
+    --rotate:90deg;
+    /* rotate it's x-axis*/
+    transform: translate(-50%,-50%)  rotateX(var(--rotate))  translate3d(0,0,calc(var(--height)*0.5)) ;
+  }
+  .box_face--bottom{
+    --rotate:-90deg;
+  }
+  @keyframes name{
+    0%{
+      transform:  rotateX(0deg) rotateY(360deg) rotateZ(45deg) skewX(0deg) skewY(0deg);
+    }
+    100%{
+      transform:  rotateX(360deg) rotateY(0deg) rotateZ(45deg) skewX(0deg) skewY(0deg);
+    }
+  }
